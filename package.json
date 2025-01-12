@@ -1,12 +1,15 @@
 {
   "name": "tsludo",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "A react component wrapper over a TypeScript + HTML Canvas implementation of the game Ludo",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "eslint src",
+    "lint:fix": "eslint src --fix",
+    "build": "npm run rollup",
     "rollup": "rollup -c --bundleConfigAsCjs"
   },
   "repository": {
@@ -27,16 +30,25 @@
   },
   "homepage": "https://github.com/MajorAchilles/tsLudo#readme",
   "devDependencies": {
+    "@eslint/js": "^9.18.0",
     "@rollup/plugin-commonjs": "^28.0.2",
     "@rollup/plugin-node-resolve": "^16.0.0",
     "@rollup/plugin-terser": "^0.4.4",
     "@rollup/plugin-typescript": "^12.1.2",
     "@types/react": "^18.0.0",
+    "eslint": "^9.18.0",
+    "eslint-plugin-react": "^7.37.3",
+    "globals": "^15.14.0",
     "react": "^18.0.0",
     "rollup-plugin-dts": "^6.1.1",
     "rollup-plugin-peer-deps-external": "^2.2.4",
     "rollup-plugin-postcss": "^4.0.2",
     "tslib": "^2.8.1",
-    "typescript": "^5.7.3"
+    "typescript": "^5.7.3",
+    "typescript-eslint": "^8.19.1"
+  },
+  "dependencies": {
+    "classnames": "^2.5.1",
+    "uuid": "^11.0.5"
   }
 }

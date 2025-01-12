@@ -1,3 +1,12 @@
-import Button from "./Button";
+import LudoGame from "./ludoV0/LudoGame";
 
-export default Button;
+const v0 = {
+  TSLudo: LudoGame,
+};
+
+const TSLudo = LudoGame;
+
+export {
+  v0,
+  TSLudo,
+};
