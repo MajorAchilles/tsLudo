@@ -1,6 +1,6 @@
 {
   "name": "tsludo",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "A react component wrapper over a TypeScript + HTML Canvas implementation of the game Ludo",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
@@ -49,6 +49,10 @@
     "typescript-eslint": "^8.19.1"
   },
   "dependencies": {
+    "classnames": "^2.5.1",
+    "uuid": "^9.0.1"
+  },
+  "peerDependencies": {
     "classnames": "^2.5.1",
     "uuid": "^9.0.1"
   }
