@@ -1,4 +1,3 @@
- 
 import { v4 as uuid } from 'uuid';
 
 import type { BoardMatrix, Cell, Coin, Vertex } from './types';

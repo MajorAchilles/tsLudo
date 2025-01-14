@@ -37,13 +37,13 @@ const getPlayerStateIcon = (playerId: PlayerId, gameState: LudoGameState) => {
   }
 };
 
-const PlayersPanel = ({
+const PlayersPanel: React.FC<PlayersPanelProps> = ({
   gameState,
   height,
   width,
   onUpdateDiceValue,
   onCompleteRollAnimation,
-}: PlayersPanelProps) => {
+}: PlayersPanelProps) : React.JSX.Element => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [context, setContext] = useState<CanvasRenderingContext2D | null>(null);
   const [frameCount, setFrameCount] = useState<number>(0);
