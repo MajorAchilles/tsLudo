@@ -1,12 +1,17 @@
-import LudoGame from "./ludoV0/LudoGame";
+import { initGame } from "./ludoCanvas";
 
-const v0 = {
-  TSLudo: LudoGame,
-};
+declare global {
+  interface Window {
+    tsludo: typeof tsludo;
+  }
+}
 
-const TSLudo = LudoGame;
+const tsludo = {
+  initGame,
+}
+
+window.tsludo  = tsludo;
 
 export {
-  v0,
-  TSLudo,
+  tsludo,
 };

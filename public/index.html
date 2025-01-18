@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="../dist/index.mjs" type="module" defer></script>
+  <title>Document</title>
+</head>
+<body>
+  <div>
+    <canvas height="500px" width="500px" style="border: 1px solid red;" id="canvas"></canvas>
+    <button onclick="window.v1.helloWorld()">Click</button>
+  </div>
+  <script type="text/javascript">
+    document.addEventListener("DOMContentLoaded", () => {
+      if (window.tsludo === undefined) {
+        console.error('window.tsludo is undefined');
+      } else {
+        const canvas = document.getElementById('canvas');
+        window.tsludo.initGame(canvas, 500, 500);
+      }
+    });
+  </script>
+</body>
+</html>

@@ -1,14 +1,29 @@
+/**
+ * @fileoverview Types for Ludo game
+ */
+
+import { CellType, PlayerId, PlayerState } from "./enums";
+
+/**
+ * Represents the position of a cell on the board.
+ */
 type Position = {
   row: number;
   col: number;
 };
 
+/**
+ * Represents a coin in the game.
+ */
 type Coin = {
   id: string;
   player: PlayerId;
   position: Position;
 };
 
+/**
+ * Represents a cell on the board.
+ */
 type Cell = {
   id: number;
   position: Position;
@@ -18,6 +33,9 @@ type Cell = {
   coins: Coin[];
 };
 
+/**
+ * Represents the props for the Ludo board component.
+ */
 type LudoBoardProps = {
   height: number;
   width: number;
@@ -25,40 +43,22 @@ type LudoBoardProps = {
   onUpdateGameState: (state: LudoGameState) => void;
 };
 
+/**
+ * Represents the matrix of cells on the board.
+ */
 type BoardMatrix = Array<Array<Cell>>;
 
+/**
+ * Represents the state of the dice.
+ */
 type DiceState = {
   value: number;
   rolling: boolean;
 };
 
- 
-enum CellType {
-  HOME = 'CellType::Home', // Home point for player
-  START = 'CellType::Start', // Starting point for player
-  SAFE = 'CellType::Safe', // Safe zone for all players
-  NORMAL = 'CellType::Normal', // Normal track
-  FINISH = 'CellType::Finish', // Finish line for player
-  WALL = 'CellType::Wall', // Wall
-}
-
-enum PlayerId {
-  RED = 'Player::Red',
-  BLUE = 'Player::Blue',
-  YELLOW = 'Player::Yellow',
-  GREEN = 'Player::Green',
-}
-
-enum PlayerState {
-  NOT_STARTED = 'PlayState::NotStarted',
-  ROLLING = 'PlayState::Rolling',
-  THINKING = 'PlayState::Thinking',
-  MOVING = 'PlayState::Moving',
-  FINISHED = 'PlayState::Finished',
-  WON = 'PlayState::Won',
-  LOST = 'PlayState::Lost',
-}
-
+/**
+ * Represents a player in the game.
+ */
 type Player = {
   id: PlayerId;
   state: PlayerState;
@@ -67,6 +67,9 @@ type Player = {
   nextPossibleStates: PlayerState[];
 };
 
+/**
+ * Represents the state of the Ludo game.
+ */
 type LudoGameState = {
   currentPlayer: PlayerId;
   players: Player[];
@@ -75,35 +78,27 @@ type LudoGameState = {
   diceState: DiceState;
 };
 
-enum Colors {
-  BLACK = '#000000',
-  WHITE = '#ffffff',
-  TRANSPARENT_LITERAL = 'transparent',
-  RED = '#ff0000',
-  BLUE = '#0088ff',
-  YELLOW = '#ffff00',
-  GREEN = '#00ff00',
-}
-
+/**
+ * Represents a vertex on the board.
+ */
 type Vertex = {
   x: number;
   y: number;
 };
 
+/**
+ * Represents a path for an animation.
+ */
 type AnimationPath = Array<Vertex>;
 
 export {
   type AnimationPath,
   type BoardMatrix,
   type Cell,
-  CellType,
   type Coin,
-  Colors,
   type DiceState,
   type LudoBoardProps,
   type LudoGameState,
   type Player,
-  PlayerId,
-  PlayerState,
   type Vertex,
 };

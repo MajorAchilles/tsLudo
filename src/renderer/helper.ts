@@ -1,4 +1,4 @@
-import type { Vertex } from './types';
+import { Vertex } from "../data/types";
 
 /**
  * Draws a filled triangle on the canvas using the provided vertices and fill color.
@@ -16,7 +16,7 @@ const fillTriangle = (
   v3: Vertex,
   fillColor: string,
   context: CanvasRenderingContext2D
-) => {
+) : void => {
   context.beginPath();
   context.moveTo(v1.x, v1.y);
   context.lineTo(v2.x, v2.y);
@@ -43,7 +43,7 @@ const strokeTriangle = (
   lineWidth: number,
   strokeSyle: string,
   context: CanvasRenderingContext2D
-) => {
+) : void => {
   context.beginPath();
   context.moveTo(v1.x, v1.y);
   context.lineTo(v2.x, v2.y);
@@ -84,7 +84,7 @@ const strokeCircle = (
   lineWidth: number,
   strokeStyle: string,
   context: CanvasRenderingContext2D
-) => {
+) : void => {
   context.beginPath();
   context.arc(center.x, center.y, radius, 0, 2 * Math.PI);
   context.lineWidth = lineWidth;
@@ -107,7 +107,7 @@ const fillCircle = (
   radius: number,
   fillStyle: string,
   context: CanvasRenderingContext2D
-) => {
+) : void => {
   context.beginPath();
   context.arc(center.x, center.y, radius, 0, 2 * Math.PI);
   context.fillStyle = fillStyle;
@@ -121,7 +121,7 @@ const fillCircle = (
  * @param time - The time value for which the easing effect needs to be calculated. Has to be normalized between 0 and 1
  * @returns The easing value calculated based on the input `time` value.
  */
-const easeOut = (time: number) => {
+const easeOut = (time: number) : number => {
   if (time > 1)
     throw new Error(`'Time value cannot be greater than 1. Arg value: ${time}`);
   if (time < 0)
@@ -138,7 +138,7 @@ const easeOut = (time: number) => {
  *
  * @example
  */
-const easeIn = (time: number) => {
+const easeIn = (time: number) : number => {
   if (time > 1)
     throw new Error(`'Time value cannot be greater than 1. Arg value: ${time}`);
 
@@ -162,7 +162,7 @@ const easeIn = (time: number) => {
  * const result = easeIn(time);
  * console.log(result); // Output: 0.25
  */
-const easeInOut = (time: number) => {
+const easeInOut = (time: number) : number => {
   if (time > 1)
     throw new Error(`'Time value cannot be greater than 1. Arg value: ${time}`);
   if (time < 0)

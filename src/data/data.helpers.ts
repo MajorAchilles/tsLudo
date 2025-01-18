@@ -1,7 +1,6 @@
 import { v4 as uuid } from 'uuid';
-
-import type { BoardMatrix, Cell, Coin, Vertex } from './types';
-import { CellType, Colors, PlayerId } from './types';
+import { BoardMatrix, Cell, Coin, Vertex } from './types';
+import { CellType, Colors, PlayerId } from './enums';
 
 const BOARD_SIZE = 15;
 
@@ -119,7 +118,7 @@ const createCoinInstance = (row: number, col: number): Coin[] => {
  * @returns The cell object that corresponds to the clicked position on the canvas. If the clicked position is outside the valid range of the board matrix, undefined is returned.
  */
 const getClickedCell = (
-  event: React.MouseEvent<HTMLCanvasElement, MouseEvent> | Event,
+  event: Event,
   canvasHeight: number,
   boardMatrix: BoardMatrix
 ): Cell | undefined => {
@@ -266,7 +265,6 @@ const getBoardMatrix = (): BoardMatrix => {
           break;
       }
 
-       
       switch (player) {
         case 1:
           cell.player = PlayerId.RED;
@@ -282,7 +280,6 @@ const getBoardMatrix = (): BoardMatrix => {
           break;
       }
 
-       
       switch (color) {
         case 1:
           cell.color = getPlayerColor(PlayerId.RED);

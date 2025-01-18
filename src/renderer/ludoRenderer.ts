@@ -1,22 +1,7 @@
- 
- 
-
-import {
-  BOARD_SIZE,
-  getBoardMatrix,
-  getCellCenter,
-  getClickedCell,
-  getPlayerColor,
-} from './data.helpers';
-import {
-  easeInOut,
-  fillCircle,
-  fillTriangle,
-  strokeCircle,
-  strokeTriangle,
-} from './graphics.helpers';
-import type { LudoGameState, Vertex } from './types';
-import { CellType, Colors, PlayerId } from './types';
+import { BOARD_SIZE, getCellCenter, getPlayerColor } from "../data/data.helpers";
+import { CellType, Colors, PlayerId } from "../data/enums";
+import { LudoGameState, Vertex } from "../data/types";
+import { easeInOut, fillCircle, fillTriangle, strokeCircle, strokeTriangle } from "./helper";
 
 declare global {
   interface Window {
@@ -71,7 +56,7 @@ const renderBoard = async (
   for (let i = 0; i < BOARD_SIZE; i++) {
     for (let j = 0; j < BOARD_SIZE; j++) {
       const cell = boardMatrix![i]![j];
-       
+
       if (!cell) continue;
 
       context.fillStyle = cell.color;
@@ -139,7 +124,7 @@ const renderBoard = async (
   for (let i = 0; i < BOARD_SIZE; i++) {
     for (let j = 0; j < BOARD_SIZE; j++) {
       const cell = boardMatrix![i]![j];
-       
+
       if (!cell) continue;
 
       cell.coins?.forEach((coin) => {
@@ -246,9 +231,7 @@ const renderLudo = (
 
 export {
   BOARD_SIZE,
-  getBoardMatrix,
   getCellCenter,
-  getClickedCell,
   getPlayerColor,
   renderLudo,
   sleep,

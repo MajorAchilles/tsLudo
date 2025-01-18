@@ -1,9 +1,6 @@
- 
- 
-
-import { easeOut, fillCircle } from './graphics.helpers';
-import type { DiceState } from './types';
-import { Colors } from './types';
+import { Colors } from "../data/enums";
+import { DiceState } from "../data/types";
+import { easeOut, fillCircle } from "./helper";
 
 declare global {
   interface Window {
