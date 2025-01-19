@@ -170,6 +170,18 @@ const easeInOut = (time: number) : number => {
   return time < 0.5 ? 2 * time ** 2 : 1 - (-2 * time + 2) ** 2 / 2;
 };
 
+
+/**
+ * Delays the execution of code by the specified duration.
+ * @param ms - The duration of the delay in milliseconds.
+ * @returns A Promise that resolves to true after the specified delay.
+ */
+const sleep = (ms: number) : Promise<boolean> => {
+  return new Promise<boolean>((resolve) => {
+    setTimeout(() => resolve(true), ms / 1);
+  });
+};
+
 export {
   easeIn,
   easeInOut,
@@ -178,4 +190,5 @@ export {
   fillTriangle,
   strokeCircle,
   strokeTriangle,
+  sleep,
 };

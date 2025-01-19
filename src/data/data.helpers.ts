@@ -1,4 +1,3 @@
-import { v4 as uuid } from 'uuid';
 import { BoardMatrix, Cell, Coin, Vertex } from './types';
 import { CellType, Colors, PlayerId } from './enums';
 
@@ -56,12 +55,12 @@ const createCoinInstance = (row: number, col: number): Coin[] => {
   const coins: Coin[] = [];
   if (row === 2) {
     if (col === 2 || col === 3) {
-      coins.push({ id: uuid(), player: PlayerId.RED, position: { row, col } });
+      coins.push({ id: `r${row}-c${col}`, player: PlayerId.RED, position: { row, col } });
     }
 
     if (col === 11 || col === 12) {
       coins.push({
-        id: uuid(),
+        id: `r${row}-c${col}`,
         player: PlayerId.GREEN,
         position: { row, col },
       });
@@ -69,12 +68,12 @@ const createCoinInstance = (row: number, col: number): Coin[] => {
   }
   if (row === 3) {
     if (col === 2 || col === 3) {
-      coins.push({ id: uuid(), player: PlayerId.RED, position: { row, col } });
+      coins.push({ id: `r${row}-c${col}`, player: PlayerId.RED, position: { row, col } });
     }
 
     if (col === 11 || col === 12) {
       coins.push({
-        id: uuid(),
+        id: `r${row}-c${col}`,
         player: PlayerId.GREEN,
         position: { row, col },
       });
@@ -83,12 +82,12 @@ const createCoinInstance = (row: number, col: number): Coin[] => {
 
   if (row === 11) {
     if (col === 2 || col === 3) {
-      coins.push({ id: uuid(), player: PlayerId.BLUE, position: { row, col } });
+      coins.push({ id: `r${row}-c${col}`, player: PlayerId.BLUE, position: { row, col } });
     }
 
     if (col === 11 || col === 12) {
       coins.push({
-        id: uuid(),
+        id: `r${row}-c${col}`,
         player: PlayerId.YELLOW,
         position: { row, col },
       });
@@ -96,12 +95,12 @@ const createCoinInstance = (row: number, col: number): Coin[] => {
   }
   if (row === 12) {
     if (col === 2 || col === 3) {
-      coins.push({ id: uuid(), player: PlayerId.BLUE, position: { row, col } });
+      coins.push({ id: `r${row}-c${col}`, player: PlayerId.BLUE, position: { row, col } });
     }
 
     if (col === 11 || col === 12) {
       coins.push({
-        id: uuid(),
+        id: `r${row}-c${col}`,
         player: PlayerId.YELLOW,
         position: { row, col },
       });

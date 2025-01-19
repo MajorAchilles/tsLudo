@@ -75,7 +75,7 @@ type LudoGameState = {
   players: Player[];
   boardMatrix: BoardMatrix;
   started: boolean;
-  diceState: DiceState;
+  diceState: DiceState | null;
 };
 
 /**

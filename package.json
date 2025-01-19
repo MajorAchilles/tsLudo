@@ -10,7 +10,7 @@
     "lint": "eslint src",
     "lint:fix": "eslint src --fix",
     "build": "npm run rollup",
-    "rollup": "rollup -c --bundleConfigAsCjs",
+    "rollup": "rollup -c -w --bundleConfigAsCjs",
     "dev": "nodemon --exec 'npm run build' --watch src --ext ts,tsx"
   },
   "repository": {
@@ -45,14 +45,5 @@
     "tslib": "^2.8.1",
     "typescript": "^5.7.3",
     "typescript-eslint": "^8.19.1"
-  },
-  "dependencies": {
-    "classnames": "^2.5.1",
-    "uuid": "^9.0.1"
-  },
-  "peerDependencies": {
-    "classnames": "^2.5.1",
-    "uuid": "^9.0.1",
-    "react": "^18.2.0"
   }
 }

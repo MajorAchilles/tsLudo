@@ -5,43 +5,46 @@ import { easeInOut, fillCircle, fillTriangle, strokeCircle, strokeTriangle } fro
 
 declare global {
   interface Window {
-    ludoAnimationStartTime?: number;
+    TS_LUDO_ANIMATION_START_TIME?: number;
   }
 }
 
 /**
- * Delays the execution of code by the specified duration.
- * @param ms - The duration of the delay in milliseconds.
- * @returns A Promise that resolves to true after the specified delay.
+ * Renders a coin on the canvas.
+ * @param context - The 2D rendering context of the canvas.
+ * @param positionCenter - The center coordinates of the coin.
+ * @param playerType - The type of player associated with the coin.
+ * @param cellSize - The size of the cell on the game board.
  */
-const sleep = (ms: number) => {
-  return new Promise<boolean>((resolve) => {
-    setTimeout(() => resolve(true), ms / 1);
-  });
-};
-
 const renderCoin = (
   context: CanvasRenderingContext2D,
-  startCellCenter: Vertex,
+  positionCenter: Vertex,
   playerType: PlayerId,
   cellSize: number
 ) => {
   context.shadowColor = Colors.BLACK;
   context.shadowBlur = 10;
   fillCircle(
-    startCellCenter,
+    positionCenter,
     cellSize / 2.6,
     getPlayerColor(playerType),
     context
   );
-  strokeCircle(startCellCenter, cellSize / 2.6, 1, Colors.BLACK, context);
-  strokeCircle(startCellCenter, cellSize / 3, 1, Colors.BLACK, context);
-  strokeCircle(startCellCenter, cellSize / 10, 1, Colors.BLACK, context);
-  strokeCircle(startCellCenter, cellSize / 20, 1, Colors.BLACK, context);
+  strokeCircle(positionCenter, cellSize / 2.6, 1, Colors.BLACK, context);
+  strokeCircle(positionCenter, cellSize / 3, 1, Colors.BLACK, context);
+  strokeCircle(positionCenter, cellSize / 10, 1, Colors.BLACK, context);
+  strokeCircle(positionCenter, cellSize / 20, 1, Colors.BLACK, context);
   context.shadowColor = Colors.TRANSPARENT_LITERAL;
   context.shadowBlur = 0;
 };
 
+/**
+ * Renders the game board on the canvas.
+ * @param context - The 2D rendering context of the canvas.
+ * @param boardSize - The size of the game board.
+ * @param gameState - The current state of the game.
+ * @param cellSize - The size of each cell on the game board.
+ */
 const renderBoard = async (
   context: CanvasRenderingContext2D,
   boardSize: number,
@@ -135,6 +138,12 @@ const renderBoard = async (
   }
 };
 
+/**
+ * Renders an animation path on the canvas.
+ * @param context - The 2D rendering context of the canvas.
+ * @param start - The starting vertex of the path.
+ * @param end - The ending vertex of the path.
+ */
 const renderAnimationPath = async (
   context: CanvasRenderingContext2D,
   start: Vertex,
@@ -157,6 +166,7 @@ const renderAnimationPath = async (
   context.closePath();
 };
 
+
 const animateCoins = async (
   context: CanvasRenderingContext2D,
   animationPath: Vertex[],
@@ -175,13 +185,13 @@ const animateCoins = async (
     renderAnimationPath(context, start, end);
   }
 
-  if (!window.ludoAnimationStartTime) {
-    window.ludoAnimationStartTime = performance.now();
+  if (!window.TS_LUDO_ANIMATION_START_TIME) {
+    window.TS_LUDO_ANIMATION_START_TIME = performance.now();
   } else {
     const currentTime = performance.now();
-    const timeElapsed = currentTime - window.ludoAnimationStartTime;
+    const timeElapsed = currentTime - window.TS_LUDO_ANIMATION_START_TIME;
     if (timeElapsed > animationDuration) {
-      window.ludoAnimationStartTime = undefined;
+      window.TS_LUDO_ANIMATION_START_TIME = undefined;
       onAnimationComplete();
       return;
     }
@@ -230,9 +240,6 @@ const renderLudo = (
 };
 
 export {
-  BOARD_SIZE,
-  getCellCenter,
-  getPlayerColor,
+  renderBoard,
   renderLudo,
-  sleep,
 };
