@@ -28,13 +28,12 @@ enum PlayerId {
  * Represents the possible states of a player.
  */
 enum PlayerState {
-  NOT_STARTED = 'PlayState::NotStarted',
-  ROLLING = 'PlayState::Rolling',
-  THINKING = 'PlayState::Thinking',
-  MOVING = 'PlayState::Moving',
-  FINISHED = 'PlayState::Finished',
-  WON = 'PlayState::Won',
-  LOST = 'PlayState::Lost',
+  INACTIVE = 'PlayState::Inactive', // Not the current player
+  ROLLING = 'PlayState::Rolling', // Rolling the dice
+  THINKING = 'PlayState::Thinking', // Thinking about the next move
+  MOVING = 'PlayState::Moving', // Game is rendering the coin movement animation
+  WON = 'PlayState::Won', // Player has won the game
+  LOST = 'PlayState::Lost', // Player has lost the game
 }
 
 /**

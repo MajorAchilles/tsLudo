@@ -70,7 +70,7 @@ const renderBoard = async (
 
       if (
         cell.type === CellType.START ||
-        (cell.type === CellType.SAFE && !cell.player)
+        (cell.type === CellType.SAFE)
       ) {
         const center = {
           x: j * cellSize + cellSize / 2,

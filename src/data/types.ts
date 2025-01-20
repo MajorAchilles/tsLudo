@@ -2,7 +2,7 @@
  * @fileoverview Types for Ludo game
  */
 
-import { CellType, PlayerId, PlayerState } from "./enums";
+import { CellType, Colors, PlayerId, PlayerState } from "./enums";
 
 /**
  * Represents the position of a cell on the board.
@@ -17,8 +17,8 @@ type Position = {
  */
 type Coin = {
   id: string;
-  player: PlayerId;
-  position: Position;
+  player: PlayerId; // The player to which this coin belongs
+  position: Position; // In which cell this coin is present
 };
 
 /**
@@ -26,21 +26,21 @@ type Coin = {
  */
 type Cell = {
   id: number;
-  position: Position;
-  type: CellType;
-  player?: PlayerId;
-  color: string;
-  coins: Coin[];
+  position: Position; // The position of the cell on the board
+  type: CellType; // The type of the cell
+  // player?: PlayerId; // The player to which this cell belongs
+  color: Colors.WHITE | Colors.RED | Colors.GREEN | Colors.YELLOW | Colors.BLUE; // The color of the cell
+  coins: Coin[]; // The coins present in this cell
 };
 
 /**
  * Represents the props for the Ludo board component.
  */
 type LudoBoardProps = {
-  height: number;
-  width: number;
-  gameState: LudoGameState;
-  onUpdateGameState: (state: LudoGameState) => void;
+  height: number; // The height of the board
+  width: number; // The width of the board
+  gameState: LudoGameState; // The state of the game
+  onUpdateGameState: (state: LudoGameState) => void; // The callback to update the game state
 };
 
 /**
@@ -52,8 +52,8 @@ type BoardMatrix = Array<Array<Cell>>;
  * Represents the state of the dice.
  */
 type DiceState = {
-  value: number;
-  rolling: boolean;
+  value: 1 | 2 | 3 | 4 | 5 | 6;
+  rolling: boolean; // Whether the dice is rolling
 };
 
 /**
@@ -61,25 +61,25 @@ type DiceState = {
  */
 type Player = {
   id: PlayerId;
-  state: PlayerState;
-  coins: Coin[];
-  movesLeft: number;
-  nextPossibleStates: PlayerState[];
+  state: PlayerState; // The state of the player
+  coins: Coin[]; // The coins of the player
+  movesLeft: number; // The number of moves left for the player in case of a double dice
+  nextPossibleStates: PlayerState[]; // The next possible states for the player given the current state
 };
 
 /**
  * Represents the state of the Ludo game.
  */
 type LudoGameState = {
-  currentPlayer: PlayerId;
-  players: Player[];
-  boardMatrix: BoardMatrix;
-  started: boolean;
-  diceState: DiceState | null;
+  currentPlayer: PlayerId; // The current player
+  players: Player[]; // The players in the game
+  boardMatrix: BoardMatrix; // The matrix of cells on the board
+  started: boolean; // Whether the game has started
+  diceState: DiceState | null; // The state of the dice
 };
 
 /**
- * Represents a vertex on the board.
+ * Represents a pixel on the rendered image.
  */
 type Vertex = {
   x: number;

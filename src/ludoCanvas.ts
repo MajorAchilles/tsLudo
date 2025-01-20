@@ -15,7 +15,7 @@ const initGame = (
     const ludoState : LudoGameState = {
       boardMatrix: initialState,
       diceState: {
-        value: 0,
+        value: 6,
         rolling: false,
       },
       currentPlayer: PlayerId.RED,

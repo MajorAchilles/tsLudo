@@ -29,7 +29,7 @@ const getCellCenter = (cell: Cell, cellSize: number): Vertex => {
  * const color = getPlayerColor(PlayerId.RED);
  * console.log(color); // Output: 'red'
  */
-const getPlayerColor = (player?: PlayerId): string => {
+const getPlayerColor = (player?: PlayerId): Colors.RED | Colors.BLUE | Colors.YELLOW | Colors.GREEN | Colors.WHITE => {
   switch (player) {
     case PlayerId.RED:
       return Colors.RED;
@@ -187,29 +187,6 @@ const getBoardMatrix = (): BoardMatrix => {
     [0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0],
   ];
 
-  // 0 = no player
-  // 1 = red
-  // 2 = green
-  // 3 = yellow
-  // 4 = blue
-  const playerMask: number[][] = [
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 2, 2, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0],
-    [0, 1, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0],
-    [0, 1, 1, 1, 1, 1, 1, 0, 3, 3, 3, 3, 3, 3, 0],
-    [0, 0, 0, 0, 0, 0, 0, 4, 0, 0, 0, 0, 0, 3, 0],
-    [0, 0, 0, 0, 0, 0, 0, 4, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 4, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 4, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 4, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 4, 4, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-  ];
-
   const colorMask: number[][] = [
     [1, 1, 1, 1, 1, 1, 0, 0, 0, 2, 2, 2, 2, 2, 2],
     [1, 0, 0, 0, 0, 1, 0, 2, 2, 2, 0, 0, 0, 0, 2],
@@ -232,7 +209,6 @@ const getBoardMatrix = (): BoardMatrix => {
     const row = [] as Array<Cell>;
     for (let j = 0; j < BOARD_SIZE; j++) {
       const cellType = cellTypeMask[i]![j];
-      const player = playerMask[i]![j];
       const color = colorMask[i]![j];
 
       const cell: Cell = {
@@ -261,21 +237,6 @@ const getBoardMatrix = (): BoardMatrix => {
           break;
         default:
           cell.type = CellType.WALL;
-          break;
-      }
-
-      switch (player) {
-        case 1:
-          cell.player = PlayerId.RED;
-          break;
-        case 2:
-          cell.player = PlayerId.GREEN;
-          break;
-        case 3:
-          cell.player = PlayerId.YELLOW;
-          break;
-        case 4:
-          cell.player = PlayerId.BLUE;
           break;
       }
 
