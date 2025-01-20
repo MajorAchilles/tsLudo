@@ -1,7 +1,8 @@
 import { BOARD_SIZE, getCellCenter, getPlayerColor } from "../data/data.helpers";
 import { CellType, Colors, PlayerId } from "../data/enums";
-import { LudoGameState, Vertex } from "../data/types";
+import { Vertex } from "../data/baseTypes";
 import { easeInOut, fillCircle, fillTriangle, strokeCircle, strokeTriangle } from "./helper";
+import { LudoGameState } from "../data/derivedTypes";
 
 declare global {
   interface Window {

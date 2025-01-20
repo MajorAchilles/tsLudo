@@ -1,5 +1,5 @@
+import { DiceState } from "../data/baseTypes";
 import { Colors } from "../data/enums";
-import { DiceState } from "../data/types";
 import { easeOut, fillCircle } from "./helper";
 
 declare global {

@@ -1,5 +1,5 @@
 import { getBoardMatrix } from "../data/data.helpers";
-import { BoardMatrix } from "../data/types";
+import { BoardMatrix } from "../data/derivedTypes";
 
 const initialState: BoardMatrix = getBoardMatrix();
 

@@ -1,4 +1,5 @@
-import { BoardMatrix, Cell, Coin, Vertex } from './types';
+import { Cell, Coin, Vertex } from './baseTypes';
+import { BoardMatrix } from './derivedTypes';
 import { CellType, Colors, PlayerId } from './enums';
 
 const BOARD_SIZE = 15;

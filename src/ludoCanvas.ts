@@ -1,5 +1,5 @@
 import { PlayerId } from "./data/enums";
-import { LudoGameState } from "./data/types";
+import { LudoGameState } from "./data/derivedTypes";
 import { renderLudo } from "./renderer/ludoRenderer";
 import initialState from "./stateManagement/initialState";
 

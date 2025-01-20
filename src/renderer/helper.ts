@@ -1,4 +1,4 @@
-import { Vertex } from "../data/types";
+import { Vertex } from "../data/baseTypes";
 
 /**
  * Draws a filled triangle on the canvas using the provided vertices and fill color.
