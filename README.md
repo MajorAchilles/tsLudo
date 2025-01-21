@@ -4,9 +4,9 @@ A TypeScript + HTML Canvas implementation of the game Ludo
 ## Todo
 * ~~Export as a lib~~ Done
 * ~~Building blocks - draw functions~~ Done
-* Define Game State  - In Progress
+* ~~Define Game State~~ - Done
+* Game logic to generate key frames - To Do
 * Interpolate animation frames between key frames - To do
-* Game logic to generate key frames - To do
 * Configurability - To do but not urgent
 * Player AI - Maybe?
 

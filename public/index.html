@@ -8,16 +8,19 @@
 </head>
 <body bgcolor="gray">
   <div>
-    <canvas height="500px" width="500px" style="border: 1px solid red;" id="canvas"></canvas>
-    <button onclick="window.v1.helloWorld()">Click</button>
+    <canvas height="500px" width="500px" id="gameBoard"></canvas>
+  </div>
+  <div>
+    <canvas height="100px" width="100px" id="dice"></canvas>
   </div>
   <script type="text/javascript">
     document.addEventListener("DOMContentLoaded", () => {
       if (window.tsludo === undefined) {
         console.error('window.tsludo is undefined');
       } else {
-        const canvas = document.getElementById('canvas');
-        window.tsludo.initGame(canvas, 500, 500);
+        const canvas = document.getElementById('gameBoard');
+        const dice = document.getElementById('dice');
+        window.tsludo.initGame(canvas, dice, 500, 500);
       }
     });
   </script>

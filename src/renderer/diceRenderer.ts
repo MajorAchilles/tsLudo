@@ -138,4 +138,4 @@ const animateDiceFace = (
   }
 };
 
-export { getRandomDiceValue, animateDiceFace as renderDice };
+export { getRandomDiceValue, renderDiceFace, animateDiceFace as renderDice };
