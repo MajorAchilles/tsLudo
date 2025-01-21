@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="https://github.com/MajorAchilles/tsludo/raw/rewrite-v1/public/tsludo_256x256.png" alt="Ludo Logo">
+</p>
+
 # tsludo
 A TypeScript + HTML Canvas implementation of the game Ludo
 
