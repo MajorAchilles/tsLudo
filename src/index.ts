@@ -1,4 +1,4 @@
-import { initGame, ludoState } from "./ludo";
+import { initGame, ludoState, onRoll } from "./ludo";
 
 declare global {
   interface Window {
@@ -9,6 +9,7 @@ declare global {
 const tsludo = {
   initGame,
   GAME_STATE: ludoState,
+  onRoll,
 }
 
 window.tsludo  = tsludo;

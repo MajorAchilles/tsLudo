@@ -83,12 +83,19 @@ const initGame = (
 };
 
 const onRoll = () : void => {
-  if (window.tsludo.GAME_STATE.diceState) {
+  if (window.tsludo.GAME_STATE.diceState && window.tsludo.GAME_STATE.canvas.dice.context) {
     window.tsludo.GAME_STATE.diceState.value = getRandomDiceValue();
+    renderDiceFace(
+      window.tsludo.GAME_STATE.canvas.dice.context,
+      window.tsludo.GAME_STATE.diceState.value,
+      window.tsludo.GAME_STATE.canvas.dice.height,
+      window.tsludo.GAME_STATE.canvas.dice.width
+    );
   }
 }
 
 export {
   initGame,
   ludoState,
+  onRoll,
 }

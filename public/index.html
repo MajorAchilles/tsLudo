@@ -21,6 +21,10 @@
         const canvas = document.getElementById('gameBoard');
         const dice = document.getElementById('dice');
         window.tsludo.initGame(canvas, dice, 500, 500, 100, 100);
+
+        dice.onclick = () => {
+          window.tsludo.onRoll();
+        };
       }
     });
   </script>
