@@ -54,12 +54,12 @@ const renderBoard = async (
 ) => {
   context.fillStyle = Colors.WHITE;
   context.fillRect(0, 0, boardSize, boardSize);
-  const { boardMatrix } = gameState;
+  const { board } = gameState;
 
   // Render the cells, home, and track
   for (let i = 0; i < BOARD_SIZE; i++) {
     for (let j = 0; j < BOARD_SIZE; j++) {
-      const cell = boardMatrix![i]![j];
+      const cell = board![i]![j];
 
       if (!cell) continue;
 
@@ -127,13 +127,13 @@ const renderBoard = async (
   // Render the cells, home, and track
   for (let i = 0; i < BOARD_SIZE; i++) {
     for (let j = 0; j < BOARD_SIZE; j++) {
-      const cell = boardMatrix![i]![j];
+      const cell = board![i]![j];
 
       if (!cell) continue;
 
       cell.coins?.forEach((coin) => {
         const center = getCellCenter(cell, cellSize);
-        renderCoin(context, center, coin.player, cellSize);
+        renderCoin(context, center, coin.playerId, cellSize);
       });
     }
   }

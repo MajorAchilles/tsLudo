@@ -17,7 +17,7 @@ type Position = {
  */
 type Coin = {
   id: string;
-  player: PlayerId; // The player to which this coin belongs
+  playerId: PlayerId; // The player to which this coin belongs
   position: Position; // In which cell this coin is present
 };
 
@@ -38,6 +38,7 @@ type Cell = {
  */
 type DiceState = {
   value: 1 | 2 | 3 | 4 | 5 | 6;
+  lastValue: 1 | 2 | 3 | 4 | 5 | 6;
   rolling: boolean; // Whether the dice is rolling
 };
 

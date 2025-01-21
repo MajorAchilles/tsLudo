@@ -23,25 +23,33 @@ Copied draw function from previous version of the react based attempt
 
 ##### Board - `Array<Array<Cells>>` - Done
 
-##### Cells
+##### DiceState - Done
+* value: `1|2|3|4|5|6`
+* lastValue: `1|2|3|4|5|6`
+
+_Might just need to only generate the next random value and leave the interpolated frame to random values for the renderer._
+
+##### Cells - Done
 * id
 * type - `HOME|START|SAFE|PATH|FINISH|WALL`
 * position.row - `num`
 * position.column - `num`
 * color
-* coins
+* coins - `Array<Coin>`
 
-##### Coins
+##### Coins - Done
 * id
-* player - `Player`
+* playerId - `Player`
 * position.row - `num`
 * position.column - `num`
 
-##### Players : `[]<Player>`
-
-##### Player: 
+##### Player: Done
 * id - `RED|BLUE|GREEN|YELLOW`
 * state - `INACTIVE|ROLLING|THINKING|MOVING|WON|LOST`
+* hasMovesLeft - `boolean`
 
-##### Dice
-Might just need to only generate the next random value and leave the interpolated frame to random values for the renderer.
+#### Game State - Done
+* board: `Board`
+* players: `Array<Player>`
+* currentPlayer: `Player`
+* diceValue: `DiceValue`

@@ -52,75 +52,67 @@ const getPlayerColor = (player?: PlayerId): Colors.RED | Colors.BLUE | Colors.YE
  * @param col - The column value of the cell.
  * @returns An array of coin instances based on the given row and column values.
  */
-const createCoinInstance = (row: number, col: number): Coin[] => {
-  const coins: Coin[] = [];
+const createCoinInstance = (row: number, col: number): Coin | undefined => {
+  let playerId: PlayerId | undefined;
+
   if (row === 2) {
     if (col === 2 || col === 3) {
-      coins.push({ id: `r${row}-c${col}`, player: PlayerId.RED, position: { row, col } });
+      playerId = PlayerId.RED;
     }
 
     if (col === 11 || col === 12) {
-      coins.push({
-        id: `r${row}-c${col}`,
-        player: PlayerId.GREEN,
-        position: { row, col },
-      });
+      playerId = PlayerId.GREEN;
     }
   }
   if (row === 3) {
     if (col === 2 || col === 3) {
-      coins.push({ id: `r${row}-c${col}`, player: PlayerId.RED, position: { row, col } });
+      playerId = PlayerId.RED;
     }
 
     if (col === 11 || col === 12) {
-      coins.push({
-        id: `r${row}-c${col}`,
-        player: PlayerId.GREEN,
-        position: { row, col },
-      });
+      playerId = PlayerId.GREEN;
     }
   }
 
   if (row === 11) {
     if (col === 2 || col === 3) {
-      coins.push({ id: `r${row}-c${col}`, player: PlayerId.BLUE, position: { row, col } });
+      playerId = PlayerId.BLUE;
     }
 
     if (col === 11 || col === 12) {
-      coins.push({
-        id: `r${row}-c${col}`,
-        player: PlayerId.YELLOW,
-        position: { row, col },
-      });
+      playerId = PlayerId.YELLOW;
     }
   }
   if (row === 12) {
     if (col === 2 || col === 3) {
-      coins.push({ id: `r${row}-c${col}`, player: PlayerId.BLUE, position: { row, col } });
+      playerId = PlayerId.BLUE;
     }
 
     if (col === 11 || col === 12) {
-      coins.push({
-        id: `r${row}-c${col}`,
-        player: PlayerId.YELLOW,
-        position: { row, col },
-      });
+      playerId = PlayerId.YELLOW;
     }
   }
-  return coins;
+  if (playerId) {
+    return {
+      id: `r${row}-c${col}`,
+      playerId,
+      position: { row, col },
+    };
+  }
+  return undefined;
 };
 
 /**
  * Determines the cell that was clicked on a canvas based on the mouse event, canvas height, and the board matrix.
  * @param event - The mouse event object that contains information about the click event.
  * @param canvasHeight - The height of the canvas element.
- * @param boardMatrix - The matrix representing the game board, where each element is a cell object.
+ * @param board - The matrix representing the game board, where each element is a cell object.
  * @returns The cell object that corresponds to the clicked position on the canvas. If the clicked position is outside the valid range of the board matrix, undefined is returned.
  */
 const getClickedCell = (
   event: Event,
   canvasHeight: number,
-  boardMatrix: BoardMatrix
+  board: BoardMatrix
 ): Cell | undefined => {
   const canvas = event.currentTarget as HTMLCanvasElement;
   const mouseEvent = event as MouseEvent;
@@ -140,7 +132,7 @@ const getClickedCell = (
   )
     return undefined;
 
-  const cell = boardMatrix![cellRow]![cellCol];
+  const cell = board![cellRow]![cellCol];
   return cell;
 };
 
@@ -212,12 +204,13 @@ const getBoardMatrix = (): BoardMatrix => {
       const cellType = cellTypeMask[i]![j];
       const color = colorMask[i]![j];
 
+      const coin = createCoinInstance(i, j);
       const cell: Cell = {
         id: i * BOARD_SIZE + j,
         position: { row: i, col: j },
         type: CellType.WALL,
         color: getPlayerColor(),
-        coins: createCoinInstance(i, j),
+        coins: coin ? [coin] : [],
       };
 
       switch (cellType) {

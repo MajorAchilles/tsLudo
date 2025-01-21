@@ -13,9 +13,10 @@ const initGame = (
     ctx.fillStyle = 'red';
     ctx.fillRect(0, 0, width, height);
     const ludoState : LudoGameState = {
-      boardMatrix: initialState,
+      board: initialState,
       diceState: {
         value: 6,
+        lastValue: 6,
         rolling: false,
       },
       currentPlayer: PlayerId.RED,

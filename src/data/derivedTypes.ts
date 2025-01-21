@@ -2,7 +2,7 @@
  * @fileoverview Types for Ludo game
  */
 
-import { Cell, Coin, DiceState } from "./baseTypes";
+import { Cell, DiceState } from "./baseTypes";
 import { PlayerId, PlayerState } from "./enums";
 
 /**
@@ -25,9 +25,7 @@ type BoardMatrix = Array<Array<Cell>>;
 type Player = {
   id: PlayerId;
   state: PlayerState; // The state of the player
-  coins: Coin[]; // The coins of the player
-  movesLeft: number; // The number of moves left for the player in case of a double dice
-  nextPossibleStates: PlayerState[]; // The next possible states for the player given the current state
+  hasMovesLeft: boolean; // Whether the player has moves left
 };
 
 /**
@@ -36,7 +34,7 @@ type Player = {
 type LudoGameState = {
   currentPlayer: PlayerId; // The current player
   players: Player[]; // The players in the game
-  boardMatrix: BoardMatrix; // The matrix of cells on the board
+  board: BoardMatrix; // The matrix of cells on the board
   started: boolean; // Whether the game has started
   diceState: DiceState | null; // The state of the dice
 };
