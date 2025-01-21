@@ -2,7 +2,7 @@
  * @fileoverview Types for Ludo game
  */
 
-import { Cell, DiceState } from "./baseTypes";
+import { Cell, DiceValue } from "./baseTypes";
 import { PlayerId, PlayerState } from "./enums";
 
 /**
@@ -19,6 +19,17 @@ type LudoBoardProps = {
  * Represents the matrix of cells on the board.
  */
 type BoardMatrix = Array<Array<Cell>>;
+
+
+/**
+ * Represents the state of the dice.
+ */
+type DiceState = {
+  value: DiceValue; // The current value of the dice
+  lastValue: DiceValue; // The last value of the dice
+  rolling: boolean; // Whether the dice is rolling
+};
+
 /**
  * Represents a player in the game.
  */
@@ -36,11 +47,26 @@ type LudoGameState = {
   players: Player[]; // The players in the game
   board: BoardMatrix; // The matrix of cells on the board
   started: boolean; // Whether the game has started
-  diceState: DiceState | null; // The state of the dice
+  diceState: DiceState; // The state of the dice
+  canvas: {
+    board: {
+      canvas: HTMLCanvasElement | null,
+      context: CanvasRenderingContext2D | null,
+      height: number,
+      width: number,
+    },
+    dice: {
+      canvas: HTMLCanvasElement | null,
+      context: CanvasRenderingContext2D | null,
+      height: number,
+      width: number,
+    }
+  }
 };
 
 export {
   type BoardMatrix,
+  type DiceState,
   type LudoBoardProps,
   type LudoGameState,
   type Player,

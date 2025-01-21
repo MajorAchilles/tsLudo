@@ -1,4 +1,6 @@
-import { DiceState } from "../data/baseTypes";
+
+import { DiceValue } from "../data/baseTypes";
+import { DiceState } from "../data/derivedTypes";
 import { Colors } from "../data/enums";
 import { easeOut, fillCircle } from "./helper";
 
@@ -17,20 +19,21 @@ declare global {
  *
  * @returns {number} The generated random number.
  */
-const getRandomDiceValue = () => {
-  return Math.floor(Math.random() * 6) + 1;
+const getRandomDiceValue = () : DiceValue  => {
+  return Math.floor(Math.random() * 6) + 1 as DiceValue;
 };
 
 const renderDiceFace = async (
   context: CanvasRenderingContext2D,
   diceValue: number,
-  size: number
+  height: number,
+  width: number
 ) => {
   // set canvas to white
   context.fillStyle = Colors.WHITE;
-  context.fillRect(0, 0, size, size);
-  const padding = size / 10; // 10 % of size
-  const actualSize = size - padding * 2;
+  context.fillRect(0, 0, height, width);
+  const padding = height / 10; // 10 % of size
+  const actualSize = height - padding * 2;
   const radius = padding * 0.8;
   const center = { x: actualSize / 2 + padding, y: actualSize / 2 + padding };
   const topLeft = { x: padding * 3, y: padding * 3 };
@@ -43,7 +46,7 @@ const renderDiceFace = async (
   // draw a square border with padding of 20 from all sides
   context.beginPath();
   context.roundRect(padding, padding, actualSize, actualSize, radius);
-  context.lineWidth = size / 40;
+  context.lineWidth = height / 40;
   context.strokeStyle = Colors.BLACK;
   context.stroke();
   context.closePath();
@@ -122,7 +125,7 @@ const animateDiceFace = (
       }
     }
 
-    renderDiceFace(context, lastDiceValue, side);
+    renderDiceFace(context, lastDiceValue, side, side);
 
     if (isLastFrame) {
       console.log('animation done');
@@ -134,7 +137,7 @@ const animateDiceFace = (
     }
   } else {
     // Show the dice face
-    renderDiceFace(context, diceState.value, side);
+    renderDiceFace(context, diceState.value, side, side);
   }
 };
 

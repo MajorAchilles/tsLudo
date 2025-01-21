@@ -210,14 +210,12 @@ const animateCoins = async (
 const renderLudo = (
   context: CanvasRenderingContext2D,
   gameState: LudoGameState,
-  height: number,
-  width: number,
   frameCount: number,
   animationPath: Vertex[],
   animationTime: number,
   onAnimationComplete: () => void
 ) => {
-  const side = Math.min(height, width);
+  const side = Math.min(gameState.canvas.board.height, gameState.canvas.board.width);
   const cellSize: number = side / BOARD_SIZE;
   const boardSize: number = cellSize * BOARD_SIZE;
   context.imageSmoothingEnabled = true;

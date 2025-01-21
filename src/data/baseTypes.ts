@@ -33,14 +33,7 @@ type Cell = {
   coins: Coin[]; // The coins present in this cell
 };
 
-/**
- * Represents the state of the dice.
- */
-type DiceState = {
-  value: 1 | 2 | 3 | 4 | 5 | 6;
-  lastValue: 1 | 2 | 3 | 4 | 5 | 6;
-  rolling: boolean; // Whether the dice is rolling
-};
+type DiceValue = 1 | 2 | 3 | 4 | 5 | 6;
 
 /**
  * Represents a pixel on the rendered image.
@@ -59,6 +52,6 @@ export {
   type AnimationPath,
   type Cell,
   type Coin,
-  type DiceState,
+  type DiceValue,
   type Vertex,
 };
