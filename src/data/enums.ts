@@ -29,6 +29,7 @@ enum PlayerId {
  */
 enum PlayerState {
   INACTIVE = 'PlayState::Inactive', // Not the current player
+  WAITING_ROLL = 'PlayState::WaitingRoll', // Waiting for the player to roll the dice
   ROLLING = 'PlayState::Rolling', // Rolling the dice
   THINKING = 'PlayState::Thinking', // Thinking about the next move
   MOVING = 'PlayState::Moving', // Game is rendering the coin movement animation

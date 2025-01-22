@@ -43,7 +43,7 @@ type Player = {
  * Represents the state of the Ludo game.
  */
 type LudoGameState = {
-  currentPlayer: PlayerId; // The current player
+  currentPlayerIndex: 0|1|2|3; // The current player
   players: Player[]; // The players in the game
   board: BoardMatrix; // The matrix of cells on the board
   started: boolean; // Whether the game has started
@@ -61,6 +61,9 @@ type LudoGameState = {
       height: number,
       width: number,
     }
+  },
+  debug: {
+    logs: boolean, // Whether to log debug messages
   }
 };
 

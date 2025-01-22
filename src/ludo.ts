@@ -1,34 +1,10 @@
-import { PlayerId } from "./data/enums";
-import { LudoGameState } from "./data/derivedTypes";
 import { renderLudo } from "./renderer/ludoRenderer";
-import initialState from "./stateManagement/initialState";
 import { getRandomDiceValue, renderDiceFace } from "./renderer/diceRenderer";
+import { LudoGameState } from "./data/derivedTypes";
+import { canRollDice, getInitialState, setNextPlayer } from "./stateManagement/state.helpers";
+import { log, LogType } from "./logger";
 
-const ludoState : LudoGameState = {
-  board: initialState,
-  diceState: {
-    value: 6,
-    lastValue: 6,
-    rolling: false,
-  },
-  currentPlayer: PlayerId.RED,
-  players: [],
-  started: false,
-  canvas: {
-    board: {
-      canvas: null,
-      context: null,
-      height: 0,
-      width: 0,
-    },
-    dice: {
-      canvas: null,
-      context: null,
-      height: 0,
-      width: 0,
-    },
-  },
-};
+const ludoState: LudoGameState = getInitialState();
 
 const initGame = (
   ludoCanvas: HTMLCanvasElement,
@@ -83,14 +59,19 @@ const initGame = (
 };
 
 const onRoll = () : void => {
-  if (window.tsludo.GAME_STATE.diceState && window.tsludo.GAME_STATE.canvas.dice.context) {
-    window.tsludo.GAME_STATE.diceState.value = getRandomDiceValue();
+  if (ludoState.canvas.dice.context && canRollDice()) {
+    const diceValue = getRandomDiceValue();
+    
+    ludoState.diceState.lastValue = ludoState.diceState.value;
+    ludoState.diceState.value = diceValue;
+    log(LogType.DICE_STATE);
     renderDiceFace(
-      window.tsludo.GAME_STATE.canvas.dice.context,
-      window.tsludo.GAME_STATE.diceState.value,
-      window.tsludo.GAME_STATE.canvas.dice.height,
-      window.tsludo.GAME_STATE.canvas.dice.width
+      ludoState.canvas.dice.context,
+      ludoState.diceState.value,
+      ludoState.canvas.dice.height,
+      ludoState.canvas.dice.width
     );
+    setNextPlayer();
   }
 }
 
