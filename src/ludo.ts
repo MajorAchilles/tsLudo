@@ -3,8 +3,11 @@ import { getRandomDiceValue, renderDiceFace } from "./renderer/diceRenderer";
 import { LudoGameState } from "./data/derivedTypes";
 import { canRollDice, getInitialState, setNextPlayer } from "./stateManagement/state.helpers";
 import { log, LogType } from "./logger";
+import { PlayerState } from "./data/enums";
 
 const ludoState: LudoGameState = getInitialState();
+
+log(LogType.GAME_STATE);
 
 const initGame = (
   ludoCanvas: HTMLCanvasElement,
@@ -56,6 +59,39 @@ const initGame = (
   if (diceCanvasCtx) {
     renderDiceFace(diceCanvasCtx, ludoState.diceState.value, diceHeight, diceWidth);
   }
+};
+
+const onPlayerTurnStart = () : void => {
+  const nextPlayerIndex = ludoState.currentPlayerIndex + 1;
+  if (nextPlayerIndex >= ludoState.players.length) {
+    ludoState.currentPlayerIndex = 0;
+  }
+
+  const currentPlayer = ludoState.players[ludoState.currentPlayerIndex];
+  const otherPlayers = ludoState.players.filter((player, index) => index !== ludoState.currentPlayerIndex);
+
+  const allOtherPlayersHaveWon = otherPlayers.every(player => player.state === PlayerState.WON);
+
+  if (allOtherPlayersHaveWon) {
+    currentPlayer.state = PlayerState.LOST;
+    return;
+  }
+
+  if (currentPlayer.state !== PlayerState.INACTIVE) {
+    // onPlayerTurnEnd();
+  } else {
+    currentPlayer.state = PlayerState.WAITING_ROLL;
+  }
+};
+
+const onPlayerRoll = () : void => {
+  const currentPlayer = ludoState.players[ludoState.currentPlayerIndex];
+  currentPlayer.state = PlayerState.ROLLING;
+
+  const diceValue = getRandomDiceValue();
+  ludoState.diceState.lastValue = ludoState.diceState.value;
+  ludoState.diceState.value = diceValue;
+  currentPlayer.state = PlayerState.THINKING;
 };
 
 const onRoll = () : void => {

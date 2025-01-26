@@ -8,7 +8,7 @@
 </head>
 <body bgcolor="gray">
   <div>
-    <canvas height="500px" width="500px" id="gameBoard"></canvas>
+    <canvas height="700px" width="700px" id="gameBoard"></canvas>
   </div>
   <div>
     <canvas height="100px" width="100px" id="dice"></canvas>
@@ -20,7 +20,7 @@
       } else {
         const canvas = document.getElementById('gameBoard');
         const dice = document.getElementById('dice');
-        window.tsludo.initGame(canvas, dice, 500, 500, 100, 100);
+        window.tsludo.initGame(canvas, dice, 700, 700, 100, 100);
 
         dice.onclick = () => {
           window.tsludo.onRoll();

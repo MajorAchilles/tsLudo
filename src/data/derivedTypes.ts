@@ -2,7 +2,7 @@
  * @fileoverview Types for Ludo game
  */
 
-import { Cell, DiceValue } from "./baseTypes";
+import { Cell, Coin, DiceValue } from "./baseTypes";
 import { PlayerId, PlayerState } from "./enums";
 
 /**
@@ -46,6 +46,7 @@ type LudoGameState = {
   currentPlayerIndex: 0|1|2|3; // The current player
   players: Player[]; // The players in the game
   board: BoardMatrix; // The matrix of cells on the board
+  coins: Coin[]; // The coins on the board
   started: boolean; // Whether the game has started
   diceState: DiceState; // The state of the dice
   canvas: {

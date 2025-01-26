@@ -260,6 +260,20 @@ const getBoardMatrix = (): BoardMatrix => {
   return matrix;
 };
 
+/**
+ * Returns an array of coins present on the board.
+ *
+ * @param board - The matrix representing the game board, where each element is an object with properties for the cell's position, type, color, and coins.
+ * @returns An array of coin objects present on the board.
+ */
+const getCoinsFromBoard = (board: BoardMatrix): Coin[] => {
+  return board
+    .map((row) => row.filter((cell) => cell.coins.length > 0))
+    .flat()
+    .map((cell) => cell.coins)
+    .flat();
+};
+
 export {
   BOARD_SIZE,
   createCoinInstance,
@@ -267,4 +281,5 @@ export {
   getCellCenter,
   getClickedCell,
   getPlayerColor,
+  getCoinsFromBoard,
 };

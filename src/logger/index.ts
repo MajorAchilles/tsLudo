@@ -6,6 +6,7 @@ enum LogType {
   CURRENT_PLAYER_INDEX = 'LogType::CURRENT_PLAYER_INDEX',
   CURRENT_PLAYER = 'LogType::CURRENT_PLAYER',
   PLAYERS = 'LogType::PLAYERS',
+  GAME_STATE = 'LogType::GAME_STATE',
 };
 
 
@@ -34,6 +35,10 @@ const log = (type: LogType, message?: string) : void => {
 
   if (type === LogType.PLAYERS) {
     value = ludoState.players;
+  }
+
+  if (type === LogType.GAME_STATE) {
+    value = ludoState;
   }
 
   if (message) {
