@@ -70,7 +70,7 @@ _Roll moves from red, to blue, to yellow to green and back to red (in anti-clock
 * Set currentPlayer = next Player
 * Get all other player states
   * All other players are in WON state
-  * Set plaer state to LOST
+  * Set player state to LOST
   * End the Game
 * if player state is not INACTIVE
     * [End player turn](#on-player-turn-end)
