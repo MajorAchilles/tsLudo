@@ -10,7 +10,7 @@ const createStartingPlayers = () : Player[] => {
       hasMovesLeft: true,
     },
     {
-      id: PlayerId.BLUE,
+      id: PlayerId.GREEN,
       state: PlayerState.INACTIVE,
       hasMovesLeft: false,
     },
@@ -20,7 +20,7 @@ const createStartingPlayers = () : Player[] => {
       hasMovesLeft: false,
     },
     {
-      id: PlayerId.GREEN,
+      id: PlayerId.BLUE,
       state: PlayerState.INACTIVE,
       hasMovesLeft: false,
     },
