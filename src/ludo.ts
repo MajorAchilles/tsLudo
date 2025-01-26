@@ -2,10 +2,12 @@ import { renderLudo } from "./renderer/ludoRenderer";
 import { getRandomDiceValue, renderDiceFace } from "./renderer/diceRenderer";
 import { LudoGameState } from "./data/derivedTypes";
 import { log, LogType } from "./logger";
-import { PlayerState } from "./data/enums";
+import { CellType, PlayerState } from "./data/enums";
 import { canRollDice, getCurrentPlayer, setNextPlayer } from "./stateManagement/player.helpers";
 import { getInitialState } from "./stateManagement/state.helpers";
-import { getPlayableCoins } from "./stateManagement/coin.helpers";
+import { getCoinCell, getCoinOriginatingCell, getPlayableCoins, getPlayerCoins } from "./stateManagement/coin.helpers";
+import { cellToPathIndex, pathToCell } from "./stateManagement/path.helpers";
+import { Coin } from "./data/baseTypes";
 
 const ludoState: LudoGameState = getInitialState();
 
@@ -86,6 +88,17 @@ const onPlayerTurnStart = () : void => {
   }
 };
 
+const onPlayerTurnEnd = () : void => {
+  const currentPlayer = getCurrentPlayer();
+
+  if (currentPlayer.state === PlayerState.WON || currentPlayer.state === PlayerState.LOST) {
+    onPlayerTurnStart();
+  } else {
+    currentPlayer.state = PlayerState.INACTIVE;
+    setNextPlayer();
+  }
+};
+
 const onPlayerRoll = () : void => {
   const currentPlayer = getCurrentPlayer();
   currentPlayer.state = PlayerState.ROLLING;
@@ -96,7 +109,69 @@ const onPlayerRoll = () : void => {
   currentPlayer.state = PlayerState.THINKING;
 
   const playableCoins = getPlayableCoins(diceValue);
-  console.log(playableCoins);
+  if (playableCoins.length === 0) {
+    onPlayerTurnEnd();
+  } else if (playableCoins.length === 1) {
+    onPlayerMove(playableCoins[0]);
+  } else {
+    currentPlayer.state = PlayerState.SELECTING_COIN;
+  }
+};
+
+const onPlayerMove = (coin: Coin) : void => {
+  const currentPlayer = getCurrentPlayer();
+  currentPlayer.state = PlayerState.MOVING;
+
+  const cell = getCoinCell(coin);
+  const pathIndex = cellToPathIndex(cell, currentPlayer);
+
+  let nextPosition = -1;
+
+  if (pathIndex === -1) {
+    nextPosition = 0;
+  } else {
+    nextPosition = pathIndex + ludoState.diceState.value;
+  }
+
+  const path = ludoState.playerPaths[currentPlayer.id];
+
+  const nextCell = pathToCell(path[nextPosition]);
+
+  coin.position = nextCell.position;
+  nextCell.coins.push(coin);
+  cell.coins = cell.coins.filter(c => c.id !== coin.id);
+
+  if (nextCell.type === CellType.SAFE || nextCell.type === CellType.HOME) {
+    if (ludoState.diceState.value === 6) {
+      currentPlayer.state = PlayerState.WAITING_ROLL;
+    } else {
+      onPlayerTurnEnd();
+    }
+  } else if (nextCell.type === CellType.FINISH) {
+    const playerCoins = getPlayerCoins(currentPlayer.id);
+    const playerCoinCells = playerCoins.map(coin => getCoinCell(coin));
+    if (playerCoinCells.every(cell => cell.type === CellType.FINISH)) {
+      currentPlayer.state = PlayerState.WON;
+    }
+    onPlayerTurnEnd();
+  } else {
+    const otherCoins = cell.coins.filter(c => c.id !== coin.id);
+
+    if (otherCoins.length > 1) {
+      const otherPlayersCoins = otherCoins.filter(c => c.playerId !== currentPlayer.id);
+      if (otherPlayersCoins.length) {
+        otherPlayersCoins[0].position = getCoinOriginatingCell(otherPlayersCoins[0]).position;
+        const cell = ludoState.board[otherPlayersCoins[0].position.row][otherPlayersCoins[0].position.col];
+        cell.coins.push(otherPlayersCoins[0]);
+      }
+    }
+
+    if (ludoState.diceState.value === 6) {
+      currentPlayer.state = PlayerState.WAITING_ROLL;
+    } else {
+      onPlayerTurnEnd();
+    }
+  }
 };
 
 const onRoll = () : void => {

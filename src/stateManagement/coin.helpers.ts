@@ -1,6 +1,6 @@
-import { Coin, DiceValue } from "../data/baseTypes";
+import { Cell, Coin, DiceValue } from "../data/baseTypes";
 import { ludoState } from "./initialState";
-import { pathIndexFromCell } from "./path.helpers";
+import { cellToPathIndex } from "./path.helpers";
 import { getCurrentPlayer } from "./player.helpers";
 
 const getPlayerCoins = (playerId: string) : Array<Coin> => {
@@ -13,7 +13,7 @@ const getCurrentPlayerCoins = () : Array<Coin> => {
 
 const isCoinPlayable = (coin: Coin, diceValue: DiceValue) : boolean => {
   const cell = ludoState.board[coin.position.row][coin.position.col];
-  const pathIndex = pathIndexFromCell(cell, ludoState.players.find(player => player.id === coin.playerId)!);
+  const pathIndex = cellToPathIndex(cell, ludoState.players.find(player => player.id === coin.playerId)!);
 
   // Check if the coin is in the home row
   if (pathIndex === -1) {
@@ -29,8 +29,22 @@ const getPlayableCoins = (diceValue: DiceValue) : Array<Coin> => {
   return allCoins.filter((coin) => isCoinPlayable(coin, diceValue));
 }
 
+const getCoinCell = (coin: Coin) : Cell => {
+  return ludoState.board[coin.position.row][coin.position.col];
+}
+
+const getCoinOriginatingCell = (coin: Coin) : Cell => {
+  const [coinRowString, coinColString] = coin.id.split('-');
+  const coinRow = parseInt(coinRowString, 10);
+  const coinCol = parseInt(coinColString, 10);
+
+  return ludoState.board[coinRow][coinCol];
+}
+
 export {
   getPlayerCoins,
   getCurrentPlayerCoins,
   getPlayableCoins,
+  getCoinCell,
+  getCoinOriginatingCell,
 };

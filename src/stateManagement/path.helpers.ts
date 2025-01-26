@@ -11,7 +11,7 @@ const cellToPath = (cell: Cell, player: Player): Position | undefined => {
   return playerPath.find((pathElement) => pathElement.col === cell.position.col && pathElement.row === cell.position.row);
 };
 
-const pathIndexFromCell = (cell: Cell, player: Player): number => {
+const cellToPathIndex = (cell: Cell, player: Player): number => {
   const playerPath = ludoState.playerPaths[player.id];
   return playerPath.findIndex((pathElement) => pathElement.col === cell.position.col && pathElement.row === cell.position.row);
 };
@@ -19,5 +19,5 @@ const pathIndexFromCell = (cell: Cell, player: Player): number => {
 export {
   pathToCell,
   cellToPath,
-  pathIndexFromCell,
+  cellToPathIndex,
 };

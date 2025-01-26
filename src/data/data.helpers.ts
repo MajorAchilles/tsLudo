@@ -94,7 +94,7 @@ const createCoinInstance = (row: number, col: number): Coin | undefined => {
   }
   if (playerId) {
     return {
-      id: `r${row}-c${col}`,
+      id: `${row}-${col}`,
       playerId,
       position: { row, col },
     };
