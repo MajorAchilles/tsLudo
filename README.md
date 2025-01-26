@@ -97,13 +97,22 @@ _Roll moves from red, to blue, to yellow to green and back to red (in anti-clock
 * Set path.current = path[path.current + diceValue]
 * Get the type of the cell at position path.current
 * If cell type is SAFE or START
-  * If dice value is < 6
-      * [End player turn](#on-player-turn-end)
-  * Else,
+  * If dice value is 6
       * Set player state to WAITING_ROLL
+  * Else,
+      * [End player turn](#on-player-turn-end)
 * If cell type is FINISH
-  * Get all other Coins for the current player
-  * If 
+  * Get all coins for the current player
+  * Get the cells for the coins
+  * If all the cells are in FINISH
+    * Set player state to WON
+  * [End player turn](#on-player-turn-end)
+* If cell type is NORMAL
+  * Get all the coins present in that cell
+  * If there are more than 2 coins in that cell
+    * Get the players of the other cell
+    * If the player != current player
+      * Move that coin to it's home position
 
 ### On player turn end
 
