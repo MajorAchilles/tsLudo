@@ -1,11 +1,18 @@
 import { renderLudo } from "./renderer/ludoRenderer";
 import { getRandomDiceValue, renderDiceFace } from "./renderer/diceRenderer";
 import { LudoGameState } from "./data/derivedTypes";
-import { canRollDice, getInitialState, setNextPlayer } from "./stateManagement/state.helpers";
+import helpers from "./stateManagement";
 import { log, LogType } from "./logger";
 import { PlayerState } from "./data/enums";
+import { getCurrentPlayer } from "./stateManagement/player.helpers";
 
-const ludoState: LudoGameState = getInitialState();
+const {
+  coin,
+  player,
+  state,
+} = helpers;
+
+const ludoState: LudoGameState = state.getInitialState();
 
 log(LogType.GAME_STATE);
 
@@ -85,17 +92,21 @@ const onPlayerTurnStart = () : void => {
 };
 
 const onPlayerRoll = () : void => {
-  const currentPlayer = ludoState.players[ludoState.currentPlayerIndex];
+  const currentPlayer = getCurrentPlayer();
   currentPlayer.state = PlayerState.ROLLING;
 
   const diceValue = getRandomDiceValue();
   ludoState.diceState.lastValue = ludoState.diceState.value;
   ludoState.diceState.value = diceValue;
   currentPlayer.state = PlayerState.THINKING;
+
+  const playerCoins = coin.getCurrentPlayerCoins();
+  console.log(playerCoins);
 };
 
 const onRoll = () : void => {
-  if (ludoState.canvas.dice.context && canRollDice()) {
+  onPlayerRoll();
+  if (ludoState.canvas.dice.context && player.canRollDice()) {
     const diceValue = getRandomDiceValue();
     
     ludoState.diceState.lastValue = ludoState.diceState.value;
@@ -107,7 +118,7 @@ const onRoll = () : void => {
       ludoState.canvas.dice.height,
       ludoState.canvas.dice.width
     );
-    setNextPlayer();
+    player.setNextPlayer();
   }
 }
 
