@@ -62,30 +62,53 @@ _Might just need to only generate the next random value and leave the interpolat
 
 ### Initialize game state - Done
 
-### On Roll
-Roll moves from red, to blue, to yellow to green and back to red (in anti-clockwise direction).
+_Roll moves from red, to blue, to yellow to green and back to red (in anti-clockwise direction)._
 
-#### If player doesn't have any coin in play and has no coins in home
-Player doesn't get to roll. They have won the game already. This roll is invalid and shouldn't have been allowed.
+### On Player turn start
 
-#### If player doesn't have any coin in play and has at least one coin in home.
+* Get next player
+* Set currentPlayer = next Player
+* if player state is not INACTIVE
+    * [End player turn](#on-player-turn-end)
+* Else,
+    * Set player state to WAITING_ROLL
+    * Wait for player to click on the dice
+    * Once clicked, [roll the dice](#on-player-roll)
+    
+### On Player Roll
+* Set player state to ROLLING
+* Get a new random dice value between 1 and 6
+* Set player state to THINKING
+* Get all coins that have path.end - path.current < diceValue
+* If coins count is 0,
+  * [End player turn](#on-player-turn-end)
+* If coint count is 1,
+  * [Move the coin](#on-player-move)
+* If coin count is more than 1,
+  * Set player state to SELECTING_COIN
+  * Wait for user to click on any one of the valid coins that the user wants to move
+  * Once clicked, [Move the coin](#on-player-move)
 
-* If player rolls a 6
-  * Move a coin from home to start.
-  * Set player state to waiting roll
-* else
-  * play moves to next player.
 
-#### If player has coins in play and doesn't have any coin in home.
+### On player move
 
-On player roll
-* Check if player has a coin that can move steps equal to dice value
-  * If exists, get valid coin count
-    * If coin count is 1, move that coin
-    * If more than one such coin exists
-      * set player state to thinking.
-      * Once player selects a coin to move, move that coin by dice value
-      * If dice value is 6, set player state to waiting to roll
-      * else, move play to next player
-  * If no such coin exists
-    * move play to next player
+* Set player state to MOVING
+* Move coin to path.[path.current + diceValue]
+* Set path.current = path[path.current + diceValue]
+* Get the type of the cell at position path.current
+* If cell type is SAFE or START
+  * If dice value is < 6
+      * [End player turn](#on-player-turn-end)
+  * Else,
+      * Set player state to WAITING_ROLL
+* If cell type is FINISH
+  * Get all other Coins for the current player
+  * If 
+
+### On player turn end
+
+* If current player state is WON or LOST
+    * [Start player turn for next player](#on-player-turn-start)
+* Else,
+    * Set current player state to INACTIVE
+    * [Start player turn for next player](#on-player-turn-start)
