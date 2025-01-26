@@ -1,4 +1,4 @@
-import { getBoardMatrix, getCoinsFromBoard } from "../data/data.helpers";
+import { getBoardMatrix, getCoinsFromBoard, getPlayerPaths } from "../data/data.helpers";
 import { LudoGameState, Player } from "../data/derivedTypes";
 import { PlayerId, PlayerState } from "../data/enums";
 
@@ -28,8 +28,8 @@ const createStartingPlayers = () : Player[] => {
 };
 
 const board = getBoardMatrix();
-
 const coins = getCoinsFromBoard(board);
+const playerPaths = getPlayerPaths();
 
 const ludoState : LudoGameState = {
   board,
@@ -40,6 +40,7 @@ const ludoState : LudoGameState = {
   },
   currentPlayerIndex: 0,
   players: createStartingPlayers(),
+  playerPaths,
   coins,
   started: false,
   canvas: {
