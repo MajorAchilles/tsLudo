@@ -113,6 +113,7 @@ _Roll moves from red, to blue, to yellow to green and back to red (in anti-clock
     * Get the players of the other cell
     * If the player != current player
       * Move that coin to it's home position
+  * [End player turn](#on-player-turn-end)
 
 ### On player turn end
 
