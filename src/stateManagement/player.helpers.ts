@@ -20,16 +20,7 @@ const setNextPlayer = () : void => {
   // set next player depending on roll and board state
 }
 
-const canRollDice = () : boolean => {
-  const currentPlayer : Player = getCurrentPlayer();
-  if (currentPlayer.state === PlayerState.WAITING_ROLL) {
-    return true;
-  }
-  return false;
-};
-
 export {
   getCurrentPlayer,
   setNextPlayer,
-  canRollDice,
 };

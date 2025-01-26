@@ -3,11 +3,12 @@ import { getRandomDiceValue, renderDiceFace } from "./renderer/diceRenderer";
 import { LudoGameState } from "./data/derivedTypes";
 import { log, LogType } from "./logger";
 import { CellType, PlayerState } from "./data/enums";
-import { canRollDice, getCurrentPlayer, setNextPlayer } from "./stateManagement/player.helpers";
+import { getCurrentPlayer, setNextPlayer } from "./stateManagement/player.helpers";
 import { getInitialState } from "./stateManagement/state.helpers";
 import { getCoinCell, getCoinOriginatingCell, getPlayableCoins, getPlayerCoins } from "./stateManagement/coin.helpers";
 import { cellToPathIndex, pathToCell } from "./stateManagement/path.helpers";
 import { Coin } from "./data/baseTypes";
+import { getClickedCell } from "./data/data.helpers";
 
 const ludoState: LudoGameState = getInitialState();
 
@@ -57,7 +58,9 @@ const initGame = (
     ludoCanvasCtx.fillStyle = 'red';
     ludoCanvasCtx.fillRect(0, 0, ludoWidth, ludoHeight);
     
-    renderLudo(ludoCanvasCtx, ludoState, 1, [], 0, () => {});
+    setInterval(() => {
+      renderLudo(ludoCanvasCtx, ludoState, 1, [], 0, () => {});
+    }, 30);
   }
 
   if (diceCanvasCtx) {
@@ -86,6 +89,7 @@ const onPlayerTurnStart = () : void => {
   } else {
     currentPlayer.state = PlayerState.WAITING_ROLL;
   }
+  console.log(ludoState.players[ludoState.currentPlayerIndex]);
 };
 
 const onPlayerTurnEnd = () : void => {
@@ -106,6 +110,10 @@ const onPlayerRoll = () : void => {
   const diceValue = getRandomDiceValue();
   ludoState.diceState.lastValue = ludoState.diceState.value;
   ludoState.diceState.value = diceValue;
+  if (ludoState.canvas.dice.context) {
+    renderDiceFace(ludoState.canvas.dice.context, diceValue, ludoState.canvas.dice.height, ludoState.canvas.dice.width);
+  }
+
   currentPlayer.state = PlayerState.THINKING;
 
   const playableCoins = getPlayableCoins(diceValue);
@@ -174,26 +182,32 @@ const onPlayerMove = (coin: Coin) : void => {
   }
 };
 
-const onRoll = () : void => {
-  onPlayerRoll();
-  if (ludoState.canvas.dice.context && canRollDice()) {
-    const diceValue = getRandomDiceValue();
-    
-    ludoState.diceState.lastValue = ludoState.diceState.value;
-    ludoState.diceState.value = diceValue;
-    log(LogType.DICE_STATE);
-    renderDiceFace(
-      ludoState.canvas.dice.context,
-      ludoState.diceState.value,
-      ludoState.canvas.dice.height,
-      ludoState.canvas.dice.width
-    );
-    setNextPlayer();
+const onDiceClick = () : void => {
+  const currentPlayer = getCurrentPlayer();
+  if (currentPlayer.state === PlayerState.WAITING_ROLL) {
+    onPlayerRoll();
   }
+}
+
+const onBoardClick = (event: MouseEvent) : void => {
+  const cell = getClickedCell(event, ludoState.canvas.board.height, ludoState.board);
+  if (!cell) {
+    return;
+  }
+
+  const currentPlayer = getCurrentPlayer();
+
+  if (currentPlayer.state === PlayerState.SELECTING_COIN) {
+    const coin = cell.coins.find(c => c.playerId === currentPlayer.id);
+    if (coin) {
+      onPlayerMove(coin);
+    }
+  };
 }
 
 export {
   initGame,
   ludoState,
-  onRoll,
+  onDiceClick,
+  onBoardClick,
 }

@@ -17,7 +17,7 @@ const isCoinPlayable = (coin: Coin, diceValue: DiceValue) : boolean => {
 
   // Check if the coin is in the home row
   if (pathIndex === -1) {
-    return true;
+    return diceValue === 6;
   } else {
     return pathIndex + diceValue <= ludoState.playerPaths[coin.playerId].length;
   }
