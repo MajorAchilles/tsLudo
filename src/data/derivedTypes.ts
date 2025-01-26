@@ -62,10 +62,10 @@ type Player = {
  * @property {Array<Position>} green - The path of the green player
  */
 type PlayerPaths = {
-  red: Array<Position>,
-  blue: Array<Position>,
-  yellow: Array<Position>,
-  green: Array<Position>,
+  [PlayerId.RED]: Array<Position>,
+  [PlayerId.BLUE]: Array<Position>,
+  [PlayerId.GREEN]: Array<Position>,
+  [PlayerId.YELLOW]: Array<Position>,
 };
 
 /**

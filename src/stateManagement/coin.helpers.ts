@@ -1,5 +1,6 @@
-import { Coin } from "../data/baseTypes";
+import { Coin, DiceValue } from "../data/baseTypes";
 import { ludoState } from "./initialState";
+import { pathIndexFromCell } from "./path.helpers";
 import { getCurrentPlayer } from "./player.helpers";
 
 const getPlayerCoins = (playerId: string) : Array<Coin> => {
@@ -10,7 +11,26 @@ const getCurrentPlayerCoins = () : Array<Coin> => {
   return getPlayerCoins(getCurrentPlayer().id);
 };
 
+const isCoinPlayable = (coin: Coin, diceValue: DiceValue) : boolean => {
+  const cell = ludoState.board[coin.position.row][coin.position.col];
+  const pathIndex = pathIndexFromCell(cell, ludoState.players.find(player => player.id === coin.playerId)!);
+
+  // Check if the coin is in the home row
+  if (pathIndex === -1) {
+    return true;
+  } else {
+    return pathIndex + diceValue <= ludoState.playerPaths[coin.playerId].length;
+  }
+}
+
+const getPlayableCoins = (diceValue: DiceValue) : Array<Coin> => {
+  const allCoins = getCurrentPlayerCoins();
+
+  return allCoins.filter((coin) => isCoinPlayable(coin, diceValue));
+}
+
 export {
   getPlayerCoins,
   getCurrentPlayerCoins,
+  getPlayableCoins,
 };

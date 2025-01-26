@@ -479,10 +479,10 @@ const getPlayerPaths = () : PlayerPaths => {
 
 
   return {
-    red: redPositions,
-    green: greenPositions,
-    yellow: yellowPositions,
-    blue: bluePositions,
+    [PlayerId.RED]: redPositions,
+    [PlayerId.GREEN]: greenPositions,
+    [PlayerId.YELLOW]: yellowPositions,
+    [PlayerId.BLUE]: bluePositions,
   };
 }
 
