@@ -208,7 +208,7 @@ const getBoardMatrix = (): BoardMatrix => {
 
       const coin = createCoinInstance(i, j);
       const cell: Cell = {
-        id: i * BOARD_SIZE + j,
+        id: `${j}-${i}`,
         position: { row: i, col: j },
         type: CellType.WALL,
         color: getPlayerColor(),

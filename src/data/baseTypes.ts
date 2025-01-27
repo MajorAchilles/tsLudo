@@ -31,14 +31,14 @@ type Coin = {
 /**
  * Represents a cell on the board.
  * @typedef {Object} Cell
- * @property {number} id - The id of the cell
+ * @property {string} id - The id of the cell
  * @property {Position} position - The position of the cell on the board
  * @property {CellType} type - The type of the cell
  * @property {Colors.WHITE | Colors.RED | Colors.GREEN | Colors.YELLOW | Colors.BLUE} color - The color of the cell
  * @property {Coin[]} coins - The coins present in this cell
  */
 type Cell = {
-  id: number;
+  id: string;
   position: Position; // The position of the cell on the board
   type: CellType; // The type of the cell
   // player?: PlayerId; // The player to which this cell belongs

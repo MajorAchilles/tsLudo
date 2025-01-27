@@ -66,6 +66,8 @@ const initGame = (
   if (diceCanvasCtx) {
     renderDiceFace(diceCanvasCtx, ludoState.diceState.value, diceHeight, diceWidth);
   }
+
+  attachMoveDebugFunction(ludoState);
 };
 
 const onPlayerTurnStart = () : void => {
@@ -146,8 +148,6 @@ const onPlayerMove = (coin: Coin) : void => {
   const nextCell = pathToCell(path[nextPosition]);
 
   coin.position = nextCell.position;
-  nextCell.coins.push(coin);
-  cell.coins = cell.coins.filter(c => c.id !== coin.id);
 
   if (nextCell.type === CellType.SAFE || nextCell.type === CellType.HOME) {
     if (ludoState.diceState.value === 6) {
@@ -160,17 +160,20 @@ const onPlayerMove = (coin: Coin) : void => {
     const playerCoinCells = playerCoins.map(coin => getCoinCell(coin));
     if (playerCoinCells.every(cell => cell.type === CellType.FINISH)) {
       currentPlayer.state = PlayerState.WON;
+    } else if (ludoState.diceState.value === 6) {
+      currentPlayer.state = PlayerState.WAITING_ROLL;
     }
     onPlayerTurnEnd();
   } else {
-    const otherCoins = cell.coins.filter(c => c.id !== coin.id);
+    const otherCoins = nextCell.coins.filter(c => c.id !== coin.id);
 
-    if (otherCoins.length > 1) {
+    if (otherCoins.length >= 1) {
       const otherPlayersCoins = otherCoins.filter(c => c.playerId !== currentPlayer.id);
       if (otherPlayersCoins.length) {
-        otherPlayersCoins[0].position = getCoinOriginatingCell(otherPlayersCoins[0]).position;
-        const cell = ludoState.board[otherPlayersCoins[0].position.row][otherPlayersCoins[0].position.col];
-        cell.coins.push(otherPlayersCoins[0]);
+        const originatingCell = getCoinOriginatingCell(otherPlayersCoins[0]);
+        otherPlayersCoins[0].position = originatingCell.position;
+        originatingCell.coins.push(otherPlayersCoins[0]);
+        nextCell.coins = nextCell.coins.filter(c => c.id !== otherPlayersCoins[0].id);
       }
     }
 
@@ -180,6 +183,8 @@ const onPlayerMove = (coin: Coin) : void => {
       onPlayerTurnEnd();
     }
   }
+  nextCell.coins.push(coin);
+  cell.coins = cell.coins.filter(c => c.id !== coin.id);
 };
 
 const onDiceClick = () : void => {
@@ -190,6 +195,11 @@ const onDiceClick = () : void => {
 }
 
 const onBoardClick = (event: MouseEvent) : void => {
+  if (event.ctrlKey) {
+    debugClick(event);
+    return;
+  }
+
   const cell = getClickedCell(event, ludoState.canvas.board.height, ludoState.board);
   if (!cell) {
     return;
@@ -201,6 +211,43 @@ const onBoardClick = (event: MouseEvent) : void => {
     const coin = cell.coins.find(c => c.playerId === currentPlayer.id);
     if (coin) {
       onPlayerMove(coin);
+    }
+  };
+}
+
+const debugClick = (event: MouseEvent) : void => {
+  const cell = getClickedCell(event, ludoState.canvas.board.height, ludoState.board);
+  if (!cell) {
+    return;
+  } else if (ludoState.debug.heap.fromCol && ludoState.debug.heap.fromRow) {
+    ludoState.debug.heap.toCol = cell.position.col;
+    ludoState.debug.heap.toRow = cell.position.row;
+    if (ludoState.debug.move) {
+      ludoState.debug.move(ludoState.debug.heap.fromRow, ludoState.debug.heap.fromCol, ludoState.debug.heap.toRow, ludoState.debug.heap.toCol);
+      ludoState.debug.heap.fromRow = undefined;
+      ludoState.debug.heap.fromCol = undefined;
+      ludoState.debug.heap.toRow = undefined;
+      ludoState.debug.heap.toCol = undefined;
+    }
+  } else {
+    ludoState.debug.heap.fromCol = cell.position.col;
+    ludoState.debug.heap.fromRow = cell.position.row;
+  }
+}
+
+const attachMoveDebugFunction = (ludoState: LudoGameState) : void => {
+  ludoState.debug.move = (fromRow: number, fromCol: number, toRow: number, toCol: number) => {
+    const cell = ludoState.board[fromRow][fromCol];
+
+    if (cell.coins.length === 0) {
+      console.debug('No coins to move');
+      return;
+    } else {
+      const coin : Coin = cell.coins.shift()!;
+
+      const nextCell = ludoState.board[toRow][toCol];
+      coin.position = nextCell.position;
+      nextCell.coins.push(coin);
     }
   };
 }

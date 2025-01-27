@@ -116,6 +116,13 @@ type LudoGameState = {
   },
   debug: {
     logs: boolean, // Whether to log debug messages
+    move: undefined | ((fromRow: number, fromCol: number, toRow: number, toCol: number) => void),
+    heap: {
+      fromRow?: number,
+      fromCol?: number,
+      toRow?: number,
+      toCol?: number,
+    },
   }
 };
 

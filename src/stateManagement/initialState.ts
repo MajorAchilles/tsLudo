@@ -59,6 +59,8 @@ const ludoState : LudoGameState = {
   },
   debug: {
     logs: true,
+    move: undefined,
+    heap: {},
   }
 };
 
