@@ -59,6 +59,7 @@ const ludoState : LudoGameState = {
   },
   debug: {
     logs: true,
+    fpsCounter: true,
     move: undefined,
     heap: {},
   }

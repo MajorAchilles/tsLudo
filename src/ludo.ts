@@ -9,6 +9,7 @@ import { getCoinCell, getCoinOriginatingCell, getPlayableCoins, getPlayerCoins }
 import { cellToPathIndex, pathToCell } from "./stateManagement/path.helpers";
 import { Coin } from "./data/baseTypes";
 import { getClickedCell } from "./data/data.helpers";
+import { animateDice } from "./renderer/diceAnimator";
 
 const ludoState: LudoGameState = getInitialState();
 
@@ -54,17 +55,36 @@ const initGame = (
     throw new Error('Dice should be square');
   }
   
-  if (ludoCanvasCtx) {
+  if (ludoCanvasCtx && diceCanvasCtx) {
     ludoCanvasCtx.fillStyle = 'red';
     ludoCanvasCtx.fillRect(0, 0, ludoWidth, ludoHeight);
-    
-    setInterval(() => {
-      renderLudo(ludoCanvasCtx, ludoState, 1, [], 0, () => {});
-    }, 30);
-  }
 
-  if (diceCanvasCtx) {
-    renderDiceFace(diceCanvasCtx, ludoState.diceState.value, diceHeight, diceWidth);
+    let lastStamp = 0;
+    let div: HTMLDivElement | null = null;
+
+    const document = ludoCanvas.ownerDocument;
+    if (!document) {
+      throw new Error('Document not found');
+    } else if (ludoState.debug.fpsCounter) {
+      div = document.createElement('div')
+      div.innerText = 'FPS: 0. Frame Time: 0ms';
+      document.body.appendChild(div);
+    }
+
+    const animHandler = (timestamp: number) => {
+      const elapsed = timestamp - lastStamp;
+      lastStamp = timestamp;
+      const fps = 1000 / elapsed;
+      if (div) {
+        div.innerText = `FPS: ${Math.ceil(fps)}. Frame Time: ${elapsed}ms`;
+      }
+      // console.log(`FPS: ${Math.ceil(fps)}, time per frame: ${elapsed}ms`);
+      renderLudo(ludoCanvasCtx, ludoState, 1, [], 0, () => {});
+      renderDiceFace(diceCanvasCtx, ludoState.diceState.value, diceHeight, diceWidth);
+      window.requestAnimationFrame(animHandler);
+    };
+
+    window.requestAnimationFrame(animHandler);
   }
 
   attachMoveDebugFunction(ludoState);
@@ -105,7 +125,7 @@ const onPlayerTurnEnd = () : void => {
   }
 };
 
-const onPlayerRoll = () : void => {
+const onPlayerRoll = async () : Promise<void> => {
   const currentPlayer = getCurrentPlayer();
   currentPlayer.state = PlayerState.ROLLING;
 
@@ -113,7 +133,7 @@ const onPlayerRoll = () : void => {
   ludoState.diceState.lastValue = ludoState.diceState.value;
   ludoState.diceState.value = diceValue;
   if (ludoState.canvas.dice.context) {
-    renderDiceFace(ludoState.canvas.dice.context, diceValue, ludoState.canvas.dice.height, ludoState.canvas.dice.width);
+    await animateDice(ludoState.canvas.dice.context, ludoState.canvas.dice.height, ludoState.canvas.dice.width, ludoState.diceState.lastValue, ludoState.diceState.value);
   }
 
   currentPlayer.state = PlayerState.THINKING;
@@ -126,6 +146,7 @@ const onPlayerRoll = () : void => {
   } else {
     currentPlayer.state = PlayerState.SELECTING_COIN;
   }
+  return Promise.resolve();
 };
 
 const onPlayerMove = (coin: Coin) : void => {
@@ -149,7 +170,7 @@ const onPlayerMove = (coin: Coin) : void => {
 
   coin.position = nextCell.position;
 
-  if (nextCell.type === CellType.SAFE || nextCell.type === CellType.HOME) {
+  if (nextCell.type === CellType.SAFE || nextCell.type === CellType.HOME || nextCell.type === CellType.START) {
     if (ludoState.diceState.value === 6) {
       currentPlayer.state = PlayerState.WAITING_ROLL;
     } else {

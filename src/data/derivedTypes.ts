@@ -116,6 +116,7 @@ type LudoGameState = {
   },
   debug: {
     logs: boolean, // Whether to log debug messages
+    fpsCounter: boolean, // Whether to show the FPS counter
     move: undefined | ((fromRow: number, fromCol: number, toRow: number, toCol: number) => void),
     heap: {
       fromRow?: number,
