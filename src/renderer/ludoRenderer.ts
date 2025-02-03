@@ -215,7 +215,7 @@ const renderLudo = (
   animationTime: number,
   onAnimationComplete: () => void
 ) => {
-  const side = Math.min(gameState.canvas.board.height, gameState.canvas.board.width);
+  const side = Math.min(context.canvas.height, context.canvas.width);
   const cellSize: number = side / BOARD_SIZE;
   const boardSize: number = cellSize * BOARD_SIZE;
   context.imageSmoothingEnabled = true;

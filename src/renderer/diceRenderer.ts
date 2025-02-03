@@ -26,9 +26,9 @@ const getRandomDiceValue = () : DiceValue  => {
 const renderDiceFace = async (
   context: CanvasRenderingContext2D,
   diceValue: number,
-  height: number,
-  width: number
 ) => {
+  const height  = context.canvas.height;
+  const width = context.canvas.width;
   // set canvas to white
   context.fillStyle = Colors.WHITE;
   context.fillRect(0, 0, height, width);
@@ -96,15 +96,12 @@ const renderDiceFace = async (
 const animateDiceFace = (
   context: CanvasRenderingContext2D,
   diceState: DiceState,
-  height: number,
-  width: number,
   _frameCount: number,
   animationDuration: number,
   onRollDone: () => void
 ) => {
   context.imageSmoothingEnabled = true;
   context.imageSmoothingQuality = 'high';
-  const side = Math.min(height, width);
 
   // Deal with animation
   if (diceState.rolling) {
@@ -125,7 +122,7 @@ const animateDiceFace = (
       }
     }
 
-    renderDiceFace(context, lastDiceValue, side, side);
+    renderDiceFace(context, lastDiceValue);
 
     if (isLastFrame) {
       console.log('animation done');
@@ -137,7 +134,7 @@ const animateDiceFace = (
     }
   } else {
     // Show the dice face
-    renderDiceFace(context, diceState.value, side, side);
+    renderDiceFace(context, diceState.value);
   }
 };
 

@@ -80,7 +80,7 @@ const initGame = (
       }
       // console.log(`FPS: ${Math.ceil(fps)}, time per frame: ${elapsed}ms`);
       renderLudo(ludoCanvasCtx, ludoState, 1, [], 0, () => {});
-      renderDiceFace(diceCanvasCtx, ludoState.diceState.value, diceHeight, diceWidth);
+      renderDiceFace(diceCanvasCtx, ludoState.diceState.value);
       window.requestAnimationFrame(animHandler);
     };
 
