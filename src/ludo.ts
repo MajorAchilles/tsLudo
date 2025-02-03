@@ -71,14 +71,22 @@ const initGame = (
       document.body.appendChild(div);
     }
 
+    let lastTenFPSValues: number[] = [];
+
     const animHandler = (timestamp: number) => {
-      const elapsed = timestamp - lastStamp;
-      lastStamp = timestamp;
-      const fps = 1000 / elapsed;
-      if (div) {
-        div.innerText = `FPS: ${Math.ceil(fps)}. Frame Time: ${elapsed}ms`;
+      if (ludoState.debug.fpsCounter) {
+        const elapsed = timestamp - lastStamp;
+        lastStamp = timestamp;
+        const instantaneousFPS = 1000 / elapsed;
+        lastTenFPSValues.push(instantaneousFPS);
+        
+        if (lastTenFPSValues.length >= 10) {
+          const averageFPS = lastTenFPSValues.reduce((acc, val) => acc + val) / lastTenFPSValues.length;
+          lastTenFPSValues = [];
+          div!.innerText = `FPS: ${Math.ceil(averageFPS)}`;
+        } 
       }
-      // console.log(`FPS: ${Math.ceil(fps)}, time per frame: ${elapsed}ms`);
+
       renderLudo(ludoCanvasCtx, ludoState, 1, [], 0, () => {});
       renderDiceFace(diceCanvasCtx, ludoState.diceState.value);
       window.requestAnimationFrame(animHandler);
